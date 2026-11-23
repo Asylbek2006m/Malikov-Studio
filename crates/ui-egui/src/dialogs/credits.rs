@@ -3,7 +3,7 @@
 //! contributors/contributors.json; nothing is read at run time. The framework's `AboutDialog` draws them.
 
 use craft::ui::dialog::DialogId;
-use craft::ui::patterns::form_dialogs::{AboutInfo, AboutLink, AboutTab, Contributor as CreditedPerson, Credits, HostedAbout, HostedReport, ModelCredit};
+use craft::ui::patterns::form_dialogs::{AboutInfo, AboutTab, Contributor as CreditedPerson, Credits, HostedAbout, HostedReport, ModelCredit};
 
 use crate::PhotocraftApp;
 
@@ -80,12 +80,6 @@ pub fn credits() -> Credits {
 /// The About tab's contents: name, blurb, version, the community button and the project links.
 pub fn about_info(_app: &PhotocraftApp) -> AboutInfo {
     AboutInfo::new("PhotoCraft", tl!("PhotoCraft — an open-source, native image editor written in Rust. By Malikov Studio."), photocraft_engine::build_info::long_version())
-        .community(AboutLink::new(tl!("Join us on Discord"), crate::links::DISCORD))
-        .links([
-            AboutLink::new(tl!("PhotoCraft website"), crate::links::APP_PAGE),
-            AboutLink::new(tl!("GitHub"), crate::links::GITHUB),
-            AboutLink::new(tl!("ArtCraft"), crate::links::ARTCRAFT_WEBSITE),
-        ])
         .built_with("egui · wgpu · photocraft-engine")
 }
 
