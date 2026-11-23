@@ -2,6 +2,7 @@
 name = "photocraft"
 version.workspace = true
 edition.workspace = true
+authors.workspace = true
 license.workspace = true
 default-run = "photocraft"
 description = "PhotoCraft: an open-source, native image editor"

@@ -86,6 +86,7 @@ pub use cmd::color_to_alpha_cmds;
 pub use cmd::comps_cmds;
 pub use cmd::contour_lib_cmds;
 pub use cmd::cutout_cmds;
+pub use cmd::id_photo_cmds;
 pub use cmd::distort_cmds;
 pub use cmd::document_preset_cmds;
 pub use cmd::edit_cmds;

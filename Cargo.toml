@@ -6,6 +6,7 @@ default-members = ["crates/*", "apps/photocraft", "apps/photocraft-cli", "xtask"
 [workspace.package]
 version = "0.23.1"
 edition = "2024"
+authors = ["Malikov Studio"]
 license = "MIT OR Apache-2.0"
 rust-version = "1.95"
 

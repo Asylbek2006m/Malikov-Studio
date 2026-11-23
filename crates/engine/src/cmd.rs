@@ -47,6 +47,7 @@ mod count_resize_tests;
 pub mod cutout_cmds;
 pub mod distort_cmds;
 pub mod document_preset_cmds;
+pub mod id_photo_cmds;
 pub mod edit_cmds;
 pub mod edit_menu_cmds;
 mod enabled;
