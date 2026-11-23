@@ -1,34 +1,11 @@
-//! Community and project links: the Help menu, the About dialog, the start screen and the title
-//! bar all open these. URLs follow the crafting-app pattern (`getartcraft.com/apps/<app>`,
-//! `github.com/storytold/<app>`).
+//! Links the app still opens in the browser: the start screen's Learn link and the update notice.
+//! The Discord, GitHub, website and issue links were removed.
 
 use serde_json::{Value, json};
 
 use crate::PhotocraftApp;
 
-pub const DISCORD: &str = "https://discord.gg/artcraft";
-pub const ARTCRAFT_WEBSITE: &str = "https://getartcraft.com";
-pub const APP_PAGE: &str = "https://getartcraft.com/apps/photocraft";
 pub const TUTORIALS: &str = "https://getartcraft.com/tutorials";
-pub const GITHUB: &str = "https://github.com/storytold/photocraft";
-pub const ISSUES: &str = "https://github.com/storytold/photocraft/issues";
-
-/// Help-menu link commands: (id, url). Labels live in `menus::UI_COMMANDS`.
-pub const COMMANDS: &[(&str, &str)] =
-    &[("help.discord", DISCORD), ("help.website", APP_PAGE), ("help.artcraftWebsite", ARTCRAFT_WEBSITE), ("help.github", GITHUB), ("help.reportIssue", ISSUES)];
-
-pub fn url_for(id: &str) -> Option<&'static str> {
-    static URLS: std::sync::OnceLock<std::collections::HashMap<&'static str, &'static str>> = std::sync::OnceLock::new();
-    URLS.get_or_init(|| {
-        let mut urls = std::collections::HashMap::new();
-        for &(id, url) in COMMANDS {
-            urls.entry(id).or_insert(url);
-        }
-        urls
-    })
-    .get(id)
-    .copied()
-}
 
 /// Open `url` in the system browser (a new tab on the web) and note it in the status bar. Prefers
 /// the platform `open_url` service (reliable on Windows/macOS/Linux); falls back to `ctx.open_url`.
@@ -48,7 +25,7 @@ mod tests {
 
     #[test]
     fn links_open_through_the_platform_service() {
-        // Issue #14: links (Help menu, Discord button, start-page links) must open in the browser.
+        // Issue #14: links (start-page links, update notice) must open in the browser.
         // They route through the `open_url` service rather than the unreliable `ctx.open_url`.
         use std::sync::{Arc, Mutex};
         let opened: Arc<Mutex<Vec<String>>> = Arc::new(Mutex::new(Vec::new()));
@@ -62,13 +39,8 @@ mod tests {
         };
         let mut app = PhotocraftApp::new(photocraft_engine::Session::new(), services);
         let ctx = app.ctx().clone();
-        // Every Help-menu link id reaches the service with its URL.
-        for (id, url) in COMMANDS {
-            crate::menus::invoke(&mut app, &ctx, id, json!({})).unwrap();
-            assert_eq!(opened.lock().unwrap().last().map(String::as_str), Some(*url), "{id}");
-        }
-        // The direct open() helper (Discord button / start-page links) also uses it.
-        open(&mut app, &ctx, DISCORD);
-        assert_eq!(opened.lock().unwrap().last().map(String::as_str), Some(DISCORD));
+        // The direct open() helper (start-page links) reaches the service with its URL.
+        open(&mut app, &ctx, TUTORIALS);
+        assert_eq!(opened.lock().unwrap().last().map(String::as_str), Some(TUTORIALS));
     }
 }
