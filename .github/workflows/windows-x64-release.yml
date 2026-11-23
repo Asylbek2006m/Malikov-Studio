@@ -1,0 +1,42 @@
+name: Windows x64 build
+
+# A Windows-only build of PhotoCraft, started by hand. It makes an unsigned zip with the
+# executable and the licence files, and uploads it as a workflow artifact. Nothing is published
+# as a GitHub release, and no signing secrets are used.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-x64:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build photocraft.exe
+        run: cargo build --release -p photocraft --bin photocraft
+
+      - name: Package zip
+        shell: pwsh
+        run: |
+          $version = (Select-String -Path Cargo.toml -Pattern '^version\s*=\s*"([^"]+)"' |
+            Select-Object -First 1).Matches[0].Groups[1].Value
+          $dir = "dist/photocraft-$version-windows-x64"
+          New-Item -ItemType Directory -Force -Path $dir | Out-Null
+          Copy-Item target/release/photocraft.exe $dir/
+          foreach ($f in 'LICENSE-MIT', 'LICENSE-APACHE', 'LICENSE') {
+            if (Test-Path $f) { Copy-Item $f $dir/ }
+          }
+          Compress-Archive -Path $dir -DestinationPath "$dir.zip"
+          echo "ZIP=$dir.zip" >> $env:GITHUB_ENV
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: photocraft-windows-x64
+          path: ${{ env.ZIP }}
+          if-no-files-found: error
