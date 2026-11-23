@@ -294,7 +294,12 @@ select.subject
 select.refineEdge
 select.focusArea
 layer.removeBackground
-image.idPhoto
+image.idPhoto.3x4
+image.idPhoto.3_5x4_5
+image.photoSize.4x6
+image.photoSize.6x9
+image.photoSize.9x12
+image.photoSize.10x15
 paint.setSymmetry
 paint.symmetryFromPath
 paint.symmetryDisable
