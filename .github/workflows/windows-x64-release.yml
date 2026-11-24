@@ -6,9 +6,6 @@ name: Windows x64 build
 
 on:
   workflow_dispatch:
-  # Temporary test trigger for this branch; remove before merging.
-  push:
-    branches: [ci/windows-x64-release]
 
 permissions:
   contents: read
@@ -18,9 +15,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          # Temporary: build the feature branch from this CI branch. Revert before merging.
-          ref: feature/id-photo-3x4
 
       - uses: Swatinem/rust-cache@v2
 
