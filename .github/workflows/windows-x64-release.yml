@@ -6,6 +6,11 @@ name: Windows x64 build
 
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch or tag to build (empty = the branch you run it from)'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -15,6 +20,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
 
       - uses: Swatinem/rust-cache@v2
 
