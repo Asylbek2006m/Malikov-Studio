@@ -15,6 +15,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Temporary: build the feature branch from this CI branch. Revert before merging.
+          ref: feature/id-photo-3x4
 
       - uses: Swatinem/rust-cache@v2
 
