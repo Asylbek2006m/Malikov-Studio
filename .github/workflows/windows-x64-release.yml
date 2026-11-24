@@ -6,9 +6,6 @@ name: Windows x64 build
 
 on:
   workflow_dispatch:
-  # Temporary test trigger for this branch; remove before merging.
-  push:
-    branches: [ci/windows-x64-release]
 
 permissions:
   contents: read
